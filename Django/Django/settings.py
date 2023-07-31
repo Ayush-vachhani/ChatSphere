@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-ri!z-ce)j4fo8h3*2vh282*4)1fcmsm8+5x6hkqm+7!ml!k0_t
 DEBUG = True
 
 ALLOWED_HOSTS = []
-CORS_ORIGIN_WHITELIST = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173',
-                         'http://192.168.43.166:5173']
+CORS_ORIGIN_WHITELIST = ['http://localhost:5173', 'http://localhost:4173', 'http://192.168.43.166:5173']
 
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -80,19 +79,27 @@ ASGI_APPLICATION = 'Django.asgi.application'
 WSGI_APPLICATION = 'Django.wsgi.application'
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
     },
 }
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
+CACHE_TTL = 60 * 1500
+CACHE = {
+    'default': {
+        'BACKEND': 'django.redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6397/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'chatapp',
+    }
+}
+
 
 DATABASES = {
     'default': {
