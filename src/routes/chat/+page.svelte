@@ -8,13 +8,21 @@
     let messages: any[] = [];
     let socket: WebSocket;
     onMount(() => {
-        socket = new WebSocket("ws://127.0.0.1:8000/ws/chat");
-        socket.addEventListener("open", () => {
+        socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat`);
+        socket.addEventListener("open", () => 
+        {
+            const message = {
+                type: "join",
+                room_name: 'room1'
+            };
+            socket.send(JSON.stringify(message));
             console.log("Connection is successful!");
         });
-        socket.onmessage = (e) => {
+        socket.onmessage = (e) => 
+        {
             const message = JSON.parse(e.data);
-            switch (message.type) {
+            switch (message.type) 
+            {
                 case "chat_message":
                     messages = [...messages, message.message];
                     break;

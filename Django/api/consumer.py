@@ -7,39 +7,39 @@ client = pymongo.MongoClient()  # local instance of MongoDB
 db = client.chatapp  # database name
 collection = db.groups  # collection name
 
-#channel layers
-from asgiref.sync import async_to_sync,sync_to_async
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_group_name = 'test'
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name,
-        )
-        # self.send(text_data=json.dumps({'message': 'Connection successful'}))
         await self.accept()
     
     #disconnect the connection
     async def disconnect(self, code):
-        await self.channel_layer.group_discard('test', self.channel_name)
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
         self.close()
         return super().disconnect(code)
 
-    
-    #send the message
-    # def send(self, text_data=None):
-    #     return super().send(text_data)
-    
     #receive the message
     async def receive(self, text_data):
         # Store the message in the database
         message = json.loads(text_data)
-        name = message['name']
-        text = message['message']
-        document = {'name': name, 'message': text}
+        try:
+            name = message['name']
+            text = message['message']
+            document = {'name': name, 'message': text}
+        except:
+            pass
+        print(message['type'])
 
-        if message['type'] == 'delete':
+        if message['type'] == 'join':
+            self.room_name = message['room_name']
+            self.room_group_name = f'chat_{self.room_name}'
+            await self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name,
+            )
+            print(self.room_group_name)
+
+        elif message['type'] == 'delete':
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
