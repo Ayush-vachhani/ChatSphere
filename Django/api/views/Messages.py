@@ -10,13 +10,12 @@ class MessageView(APIView):
     def post(request):
         user1_name = request.data.get('user1_name')
         user2_name = request.data.get('user2_name')
+        # sort the names
         user1_name, user2_name = sorted([user1_name, user2_name])
-        print(user1_name, user2_name)
-
         # get the chat object
         chat, created = Chat.objects.get_or_create(user1_name=user1_name, user2_name=user2_name)
-
-        return Response({'messages': 'success'})
+        print(chat.messages[0])
+        return Response({'messages': chat.messages})
     
     @staticmethod
     def get(request):

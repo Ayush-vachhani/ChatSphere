@@ -31,7 +31,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(message['type'])
 
         if message['type'] == 'join':
-            self.room_name = message['room_name']
+            users = message['room_name']
+            self.room_name = '_'.join(sorted(users)).encode('ascii', 'ignore').decode('ascii').replace(' ', '_')
             self.room_group_name = f'chat_{self.room_name}'
             await self.channel_layer.group_add(
                 self.room_group_name,
