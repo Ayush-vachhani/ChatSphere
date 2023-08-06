@@ -37,7 +37,7 @@
     });
 
     async function getMessages() {
-        const response = await axios.get("http://127.0.0.1:8000/api/chat");
+        const response = await axios.get("http://127.0.0.1:8000/api/users");
         messages = response.data.messages[0];
         console.log($user.name);
     }

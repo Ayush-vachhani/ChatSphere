@@ -2,7 +2,7 @@
 	export let isLoggedIn:boolean;
 	import { user } from '../writables/info.ts';
 	function logout() {
-        user.update(n => ({ ...n, name: '', email: '',initials: '' }));
+        user.update(n => ({ ...n, name: '', email: '',initials: '',full_name:'' }));
 		isLoggedIn = false;
         localStorage.clear();
 	}

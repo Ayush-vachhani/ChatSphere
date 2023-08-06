@@ -2,5 +2,6 @@ import { writable } from "svelte/store";
 export const user = writable({
     name: '',
     email: '',
-    initials: ''
+    initials: '',
+    full_name: ''
 });

@@ -15,7 +15,8 @@
             const name = response.data.user.name;
             const email = response.data.user.email;
             const initials = response.data.user.initials;
-            user.set({name, email, initials});
+            const full_name = response.data.user.full_name;
+            user.set({name, email, initials, full_name});
             localStorage.setItem('token', JSON.stringify(response.data.user));
             await goto('/');
         } catch (error) {

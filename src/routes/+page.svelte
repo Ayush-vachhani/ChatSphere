@@ -29,7 +29,7 @@
         {
             if(temp!=null)
             {
-                user.set({name:userObj.name, email:userObj.email, initials:userObj.initials});
+                user.set({name:userObj.name, email:userObj.email, initials:userObj.initials,full_name:userObj.full_name});
             }
             else
             {
@@ -52,6 +52,7 @@
         <Navbar {isLoggedIn} />
         <button class="button" on:click={()=>email($user.email)}>SEND EMAIL</button>
         <a href="/chat" class="-btn -btn-accent">CHAT APP</a>
+        <a href="/users" class="-btn -btn-accent">Users</a>
     {/if}
 </main>
 
