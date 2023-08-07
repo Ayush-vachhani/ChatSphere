@@ -14,7 +14,6 @@ class MessageView(APIView):
         user1_name, user2_name = sorted([user1_name, user2_name])
         # get the chat object
         chat, created = Chat.objects.get_or_create(user1_name=user1_name, user2_name=user2_name)
-        print(chat.messages[0])
         return Response({'messages': chat.messages})
     
     @staticmethod

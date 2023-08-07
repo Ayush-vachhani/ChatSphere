@@ -12,7 +12,6 @@
 		users = response.data.UserNames;
 		console.log($user.full_name);
 		users = users.filter((item) => item != $user.full_name);
-		console.log(users);
 		isLoading = false;
 	});
 </script>
@@ -23,8 +22,7 @@
 	{:else}
 		{#each users as user}
 			{#if user}
-				<a href="/users/chat-with-{user.replace(/\s+/g, '_')}">{user}</a
-				>
+				<a href="/users/chat-with-{user.replace(/\s+/g, '_')}">{user}</a>
 			{/if}
 		{/each}
 	{/if}
