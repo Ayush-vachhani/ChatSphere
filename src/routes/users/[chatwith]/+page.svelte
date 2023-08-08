@@ -2,6 +2,7 @@
 	import axios from "axios";
 	import { onMount } from "svelte";
 	import { user } from "../../../writables/info.ts";
+	import { FileButton } from '@skeletonlabs/skeleton';
 	let chatPartner = "";
 	let messages: any[] = [];
 	let socket: WebSocket;
@@ -76,24 +77,15 @@
 				<span class="font-bold mr-2">{message.sender}:</span>
 				<div class="-chat-bubble mr-2 flex-grow">{message.message}</div>
 				{#if $user.full_name === message.sender}
-					<button
-						class="-btn -btn-accent"
-						on:click={() => deleteMessage(message.message)}
-						>Delete</button
-					>
+					<button class="-btn -btn-accent" on:click={() => deleteMessage(message.message)}>Delete</button>
 				{/if}
 			</div>
 		{/each}
 	</div>
 	<form class="bg-gray-200 p-4" on:submit={sendMessage}>
 		<div class="flex">
-			<input
-				type="text"
-				name="message"
-				placeholder="Type your message"
-				class="flex-1 p-2 rounded mr-2"
-				autocomplete="off"
-			/>
+			<input type="text" name="message" placeholder="Type your message"class="flex-1 p-2 rounded mr-2"autocomplete="off" />
+			<FileButton name="files" button="variant-filled"/>
 			<button type="submit" class="-btn -btn-primary">SEND</button>
 		</div>
 	</form>

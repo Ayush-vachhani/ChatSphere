@@ -1,11 +1,6 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer,WebsocketConsumer
 
-#database connection 
-import pymongo
-client = pymongo.MongoClient()  # local instance of MongoDB
-db = client.chatapp  # database name
-collection = db.groups  # collection name
 
 from api.models import Chat
 from asgiref.sync import sync_to_async,async_to_sync
@@ -14,6 +9,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.chat, self.created = None, None
+
     async def connect(self):
         await self.accept()
     
@@ -57,7 +53,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await sync_to_async(self.chat.save)()
 
         elif message['type'] == 'chat_message':
-            print(message['sender'],message['message'])
             sender = message['sender']
             message = message['message']
             await self.channel_layer.group_send(
@@ -73,7 +68,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chat_message(self, event):
         # Send the message to all connected clients
-        print("Message sent to group")
         message = event['message']
         sender = event['sender']
         await self.send(text_data=json.dumps({'type':'chat_message','context':{'sender':sender,'message':message}}))
