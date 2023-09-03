@@ -1,7 +1,6 @@
 from django.db import models
 
 class Signup(models.Model):
-    objects = None
     id = models.AutoField
     name= models.CharField(max_length=50,default="")
     last_name= models.CharField(max_length=50,default="")
@@ -40,3 +39,25 @@ class Chat(models.Model):
         # Sort the user names alphabetically
         self.user1_name, self.user2_name = sorted([self.user1_name, self.user2_name])
         super().save(*args, **kwargs)
+
+
+# ... Your existing models ...
+
+class Post(models.Model):
+    # Primary key for the post
+    id = models.AutoField
+    # User who created the post
+    user = models.ForeignKey(Signup, on_delete=models.CASCADE, related_name='posts')
+    # Image for the post
+    image = models.ImageField(upload_to='media/posts/images/')
+    # Caption for the post
+    caption = models.TextField(blank=True, null=True)
+    # Likes (Many-to-Many relationship with Signup)
+    likes = models.ManyToManyField(Signup, related_name='liked_posts', blank=True)
+    # Date and time on which the post was created
+    created_at = models.DateTimeField(auto_now_add=True)
+    #comments
+    comments = models.JSONField(default=list)
+    def __str__(self):
+        return f"Post by {self.user.full_name}"
+

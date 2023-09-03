@@ -50,8 +50,6 @@
     {:else}
         <Toast max?=1 duration?=250 />
         <Navbar {isLoggedIn} />
-        <button class="button" on:click={()=>email($user.email)}>SEND EMAIL</button>
-        <a href="/chat" class="-btn -btn-accent">CHAT APP</a>
         <a href="/users" class="-btn -btn-accent">Users</a>
     {/if}
 </main>

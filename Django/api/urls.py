@@ -8,9 +8,12 @@ from .views.Login import LoginView
 from .views.Users import UsersView
 # Messages view
 from .views.Messages import MessageView
+# Posts view
+from .views.Posts import PostView
 urlpatterns = [
     path('signup', SignupView.as_view(), name="signup"),
     path('login', LoginView.as_view(), name="login"),
     path('users', UsersView.as_view(), name="users"),
     path('messages', MessageView.as_view(), name="messages"),
+    path('posts', PostView.as_view(), name="posts"),
 ]

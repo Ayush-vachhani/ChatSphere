@@ -5,3 +5,7 @@ export const user = writable({
     initials: '',
     full_name: ''
 });
+
+export const urls = writable({
+    base: 'http://localhost:8000',
+});
