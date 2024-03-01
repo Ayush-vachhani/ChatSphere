@@ -10,6 +10,7 @@
 	onMount(async () => {
 		const response = await axios.get("http://127.0.0.1:8000/api/users");
 		users = response.data.UserNames;
+        console.log(users);
 		console.log($user.full_name);
 		users = users.filter((item) => item != $user.full_name);
 		isLoading = false;
